@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "bookworm_user")
-public class BookwormUser {
+public class BookwormUser extends Root{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
