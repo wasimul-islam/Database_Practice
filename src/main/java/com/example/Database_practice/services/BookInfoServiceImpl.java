@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.Database_practice.enums.BookStatus;
 import com.example.Database_practice.models.Book;
 import com.example.Database_practice.models.BookInfo;
 import com.example.Database_practice.models.ResponseMessage;
@@ -23,7 +24,8 @@ public class BookInfoServiceImpl implements BookInfoService {
 	@Override
 	public ResponseEntity<?> addBookInfo(BookInfo bookInfo) {
 		// TODO Auto-generated method stub
-		return ResponseEntity.ok(bookInfoRepository.save(bookInfo));
+		bookInfo= bookInfoRepository.save(bookInfo);
+		return ResponseEntity.ok(bookInfo);
 	}
 
 	@Override
@@ -41,7 +43,7 @@ public class BookInfoServiceImpl implements BookInfoService {
 		}
 		BookInfo bookInfo = optionalBookInfo.get();
 		List<Book> books =  bookInfo.getBooks();
-		book.setStatus(book.getStatus());
+		book.setStatus(BookStatus.AVAILABLE);
 		books.add(book);
 		bookInfo.setBooks(books);
 		bookInfo = bookInfoRepository.save(bookInfo);

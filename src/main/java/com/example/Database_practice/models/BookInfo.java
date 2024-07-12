@@ -1,14 +1,17 @@
 package com.example.Database_practice.models;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import com.example.Database_practice.enums.Catagory;
+import com.example.Database_practice.enums.BookCategory;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -22,7 +25,7 @@ public class BookInfo extends Root {
 	@Column(name = "book_name")
 	private String bookName;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "book_info_id", referencedColumnName = "id")
 	private List<Book> books;
 	
@@ -30,13 +33,13 @@ public class BookInfo extends Root {
 	private Writers writer;
 	
 	@Enumerated(EnumType.STRING)
-	private Catagory catagory;
+	private BookCategory catagory;
 
-	public Catagory getCatagory() {
+	public BookCategory getCatagory() {
 		return catagory;
 	}
 
-	public void setCatagory(Catagory catagory) {
+	public void setCatagory(BookCategory catagory) {
 		this.catagory = catagory;
 	}
 
@@ -49,7 +52,7 @@ public class BookInfo extends Root {
 	}
 
 	public List<Book> getBooks() {
-		return books;
+		return Objects.isNull(books) ? new ArrayList<Book>() : books;
 	}
 
 	public void setBooks(List<Book> books) {

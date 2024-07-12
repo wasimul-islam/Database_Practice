@@ -1,7 +1,7 @@
 package com.example.Database_practice.models;
 
 
-import com.example.Database_practice.enums.Status;
+import com.example.Database_practice.enums.BookStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,7 +17,7 @@ public class Book extends Root{
 	private BookwormUser owner;
 	
 	@Enumerated(EnumType.STRING)
-	private Status status;
+	private BookStatus status;
 
 	public BookwormUser getOwner() {
 		return owner;
@@ -27,11 +27,11 @@ public class Book extends Root{
 		this.owner = ownerBookwormUser;
 	}
 
-	public Status getStatus() {
+	public BookStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(BookStatus status) {
 		this.status = status;
 	}
 

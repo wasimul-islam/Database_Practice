@@ -1,6 +1,6 @@
 package com.example.Database_practice.enums;
 
-public enum Status {
+public enum BookStatus {
 
 	AVAILABLE("AVAILABLE"), UNAVAILABLE("UNAVAILABLE");
 	
@@ -10,7 +10,7 @@ public enum Status {
 		return value;
 	}
 
-	private Status(String value) {
+	private BookStatus(String value) {
 		this.value = value;
 	}
 	
