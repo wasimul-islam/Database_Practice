@@ -1,9 +1,12 @@
 package com.example.Database_practice.models;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import com.example.Database_practice.enums.RequestStatus;
+import com.example.Database_practice.helpers.DateCalculationHelper;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
@@ -12,42 +15,44 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.persistence.Transient;
 
 @Entity
 @Table(name ="book_requests")
 public class BookLendingRequest extends Root{
 	
-	
+	@ManyToOne
 	private BookwormUser requester;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "request_id", referencedColumnName = "id")
 	private List<Book> books;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	protected LocalDate creationDate;
+	protected Date creationDate;
 	
 	@Enumerated(EnumType.STRING)
 	private RequestStatus reqStatus;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	protected LocalDate approvalDate;
+	protected Date approvalDate;
 	
 	@Transient
-	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	protected LocalDate estimatedReturnDate;
+	protected Date estimatedReturnDate;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Transient
+	@Value("${max.keep.days}")
+	private int incrementDays;
+	
+	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	protected LocalDate returnDate;
+	protected Date returnDate;
 
 	public BookwormUser getRequester() {
 		return requester;
@@ -66,15 +71,11 @@ public class BookLendingRequest extends Root{
 		this.books = books;
 	}
 
-	public void setEstimatedReturnDate(LocalDate estimatedReturnDate) {
-		this.estimatedReturnDate = estimatedReturnDate;
-	}
-
-	public LocalDate getCreationDate() {
+	public Date getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(LocalDate creationDate) {
+	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;;
 	}
 
@@ -86,27 +87,27 @@ public class BookLendingRequest extends Root{
 		this.reqStatus = reqStatus;
 	}
 
-	public LocalDate getApprovalDate() {
+	public Date getApprovalDate() {
 		return approvalDate;
 	}
 
-	public void setApprovalDate(LocalDate approvalDate) {
+	public void setApprovalDate(Date approvalDate) {
 		this.approvalDate = approvalDate;
 	}
 
-	public LocalDate getEstimatedReturnDate() {
-		return this.creationDate.plusDays(14);
+	public Date getEstimatedReturnDate() {
+		return estimatedReturnDate;
 	}
 
-	public void setReqExpireDate(LocalDate estimatedReturnDate) {
-		this.estimatedReturnDate = estimatedReturnDate.plusDays(14);
+	public void setEstimatedReturnDate(Date approvaLocalDate) {
+		this.estimatedReturnDate = DateCalculationHelper.incrementDay(approvaLocalDate, incrementDays);
 	}
 
-	public LocalDate getReturnDate() {
+	public Date getReturnDate() {
 		return returnDate;
 	}
 
-	public void setReturnDate(LocalDate returnDate) {
+	public void setReturnDate(Date returnDate) {
 		this.returnDate = returnDate;
 	}
 	

@@ -1,7 +1,7 @@
 package com.example.Database_practice.enums;
 
 public enum RequestStatus {
-	PENDING("PENDING"), APPROVED("APPROVED");
+	REJECTED("REJECTED"), APPROVED("APPROVED");
 	
 	private String value;
 
