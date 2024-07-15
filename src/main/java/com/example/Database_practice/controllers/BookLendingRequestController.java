@@ -25,9 +25,9 @@ public class BookLendingRequestController {
 		return bookLendingRequestService.addRequest(request);
 	}
 	
-	@PutMapping("/approve-request/{id}")
-	public ResponseEntity<?> approveRequest(@PathVariable(name = "id") Long id){
-		return bookLendingRequestService.approveRequest(id);
+	@PutMapping("/approve-request/{id}/{approval}")
+	public ResponseEntity<?> approveRequest(@PathVariable(name = "id") Long id,@PathVariable(name = "approval") String approval){
+		return bookLendingRequestService.approveRequest(id, approval);
 	}
 	@PutMapping("/return-request/{id}")
 	public ResponseEntity<?> returnBook(@PathVariable(name = "id") Long id){
