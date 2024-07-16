@@ -40,7 +40,7 @@ public class BookLendingRequestServiceImpl implements BookLendingRequestService 
 		//{
 		//	
 		//}
-		
+		request.setReqStatus(RequestStatus.PENDING);		
 		request= bookLendingRequestRepository.save(request);
 		return ResponseEntity.ok(request);
 	}
