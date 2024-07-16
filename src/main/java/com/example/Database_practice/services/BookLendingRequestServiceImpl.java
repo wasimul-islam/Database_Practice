@@ -1,8 +1,8 @@
 package com.example.Database_practice.services;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,15 +45,22 @@ public class BookLendingRequestServiceImpl implements BookLendingRequestService 
 		return ResponseEntity.ok(request);
 	}
 
+	public ResponseEntity<?> getRequestsByStatus(List<RequestStatus> requestStatuses){
+		List<BookLendingRequest> reqList = bookLendingRequestRepository.findByReqStatusIn(requestStatuses);
+		
+		List<BookLendingRequest> reqList2 = bookLendingRequestRepository.findByReqStatusIncustom(requestStatuses);
+		return null;
+	}
+	
 	@Override
 	public ResponseEntity<?> approveRequest(Long id, String approval) {
 		// TODO Auto-generated method stub
 		Optional<BookLendingRequest> optionalRequest = bookLendingRequestRepository.findById(id);
 		
 		
-		if(optionalRequest.isPresent() && optionalRequest.get().getReqStatus()==RequestStatus.PENDING)
+		if(optionalRequest.isPresent() && (optionalRequest.get().getReqStatus().equals(RequestStatus.PENDING)))
 		{
-			if( approval == "APPROVED")
+			if( approval.equals("APPROVED"))
 			{
 				optionalRequest.get().setReqStatus(RequestStatus.APPROVED);
 				Date date = new Date();
