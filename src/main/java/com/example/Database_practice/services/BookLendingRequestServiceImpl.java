@@ -51,7 +51,7 @@ public class BookLendingRequestServiceImpl implements BookLendingRequestService 
 		Optional<BookLendingRequest> optionalRequest = bookLendingRequestRepository.findById(id);
 		
 		
-		if(optionalRequest.isPresent())
+		if(optionalRequest.isPresent() && optionalRequest.get().getReqStatus()==RequestStatus.PENDING)
 		{
 			if( approval == "APPROVED")
 			{
@@ -73,7 +73,7 @@ public class BookLendingRequestServiceImpl implements BookLendingRequestService 
 			}
 		}
 		else {
-			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new ResponseMessage("Request Not Found"));
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new ResponseMessage("Approve Request Not Valid"));
 
 		}
 
