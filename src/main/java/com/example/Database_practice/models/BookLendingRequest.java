@@ -24,7 +24,8 @@ import jakarta.persistence.Transient;
 @Table(name ="book_requests")
 public class BookLendingRequest extends Root{
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "requester_id", referencedColumnName = "id")
 	private BookwormUser requester;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
