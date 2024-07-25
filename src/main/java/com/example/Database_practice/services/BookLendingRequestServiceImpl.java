@@ -46,10 +46,13 @@ public class BookLendingRequestServiceImpl implements BookLendingRequestService 
 	}
 
 	public ResponseEntity<?> getRequestsByStatus(List<RequestStatus> requestStatuses){
+		
 		List<BookLendingRequest> reqList = bookLendingRequestRepository.findByReqStatusIn(requestStatuses);
 		
-		List<BookLendingRequest> reqList2 = bookLendingRequestRepository.findByReqStatusIncustom(requestStatuses);
-		return null;
+		
+		
+		
+		return ResponseEntity.ok(reqList);
 	}
 	
 	@Override
@@ -110,6 +113,12 @@ public class BookLendingRequestServiceImpl implements BookLendingRequestService 
 		bookLendingRequestRepository.save(optionalRequest.get());
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new ResponseMessage("Book Returned"));
 
+	}
+
+	@Override
+	public ResponseEntity<?> getRequests() {
+		// TODO Auto-generated method stub
+		return ResponseEntity.ok(bookLendingRequestRepository.findAll());
 	}
 
 	

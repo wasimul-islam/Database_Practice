@@ -1,7 +1,10 @@
 package com.example.Database_practice.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Database_practice.enums.RequestStatus;
 import com.example.Database_practice.models.BookLendingRequest;
 import com.example.Database_practice.services.BookLendingRequestService;
 
@@ -32,5 +36,16 @@ public class BookLendingRequestController {
 	@PutMapping("/return-request/{id}")
 	public ResponseEntity<?> returnBook(@PathVariable(name = "id") Long id){
 		return bookLendingRequestService.returnBook(id);
+	}
+	
+	@GetMapping("/get-status/{status}")
+	public ResponseEntity<?> getRequestsByStatus(@PathVariable (name = "status") List<RequestStatus> status)
+	{
+		return bookLendingRequestService.getRequestsByStatus(status);
+	}
+	@GetMapping("/get-all")
+	public ResponseEntity<?> getRequestsByStatus()
+	{
+		return bookLendingRequestService.getRequests();
 	}
 }
