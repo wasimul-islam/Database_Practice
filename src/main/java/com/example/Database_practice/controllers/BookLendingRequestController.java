@@ -44,7 +44,7 @@ public class BookLendingRequestController {
 		return bookLendingRequestService.getRequestsByStatus(status);
 	}
 	@GetMapping("/get-all")
-	public ResponseEntity<?> getRequestsByStatus()
+	public ResponseEntity<?> getRequests()
 	{
 		return bookLendingRequestService.getRequests();
 	}
