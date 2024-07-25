@@ -29,10 +29,10 @@ public class BookLendingRequestServiceImpl implements BookLendingRequestService 
 	@Override
 	public ResponseEntity<?> addRequest(BookLendingRequest request)  {
 		
-		if(request.getBooks().size()>maxBookLimit)
-		{
-			throw new ArithmeticException("Maximum book request can be 3");
-		}
+		//if(request.getBooks().size()>maxBookLimit)
+		//{
+		//	throw new ArithmeticException("Maximum book request can be 3");
+		//}
 
 		//Optional<BookLendingRequest> optionalRequest = bookLendingRequestRepository.findById(request.getId());
 		

@@ -2,6 +2,8 @@ package com.example.Database_practice.models;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "bookworm_user")
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class BookwormUser extends Root{
 	
 	@Id
@@ -19,6 +22,7 @@ public class BookwormUser extends Root{
 	
 	@Column(name = "name")
 	private String name;
+	
 	
 	@Column(name = "email")
 	private String email;

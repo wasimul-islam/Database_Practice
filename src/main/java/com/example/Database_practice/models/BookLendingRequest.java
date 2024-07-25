@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import com.example.Database_practice.enums.RequestStatus;
 import com.example.Database_practice.helpers.DateCalculationHelper;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -24,9 +25,8 @@ import jakarta.persistence.Transient;
 @Table(name ="book_requests")
 public class BookLendingRequest extends Root{
 	
-	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-	//@JoinColumn(name = "requester_id", referencedColumnName = "id")
-	private BookwormUser requester;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private BookwormUser requesterInfo;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "request_id", referencedColumnName = "id")
@@ -55,12 +55,12 @@ public class BookLendingRequest extends Root{
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	protected Date returnDate;
 
-	public BookwormUser getRequester() {
-		return requester;
+	public BookwormUser getRequesterInfo() {
+		return requesterInfo;
 	}
 
-	public void setRequester(BookwormUser requester) {
-		this.requester = requester;
+	public void setRequesterInfo(BookwormUser requesterInfo) {
+		this.requesterInfo = requesterInfo;
 	}
 
 	
