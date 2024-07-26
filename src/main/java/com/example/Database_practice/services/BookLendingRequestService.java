@@ -12,4 +12,5 @@ public interface BookLendingRequestService {
 	ResponseEntity<?> approveRequest(Long id,String approval);
 	ResponseEntity<?> returnBook(Long id);
 	ResponseEntity<?> getRequestsByStatus(List<RequestStatus> requestStatuses);
+	ResponseEntity<?> deleteRequest(Long id);
 }

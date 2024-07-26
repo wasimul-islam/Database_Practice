@@ -6,10 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.example.Database_practice.enums.RequestStatus;
-import com.example.Database_practice.helpers.DateCalculationHelper;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -25,10 +22,10 @@ import jakarta.persistence.Transient;
 @Table(name ="book_requests")
 public class BookLendingRequest extends Root{
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private BookwormUser requesterInfo;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "request_id", referencedColumnName = "id")
 	private List<Book> books;
 	
@@ -46,10 +43,6 @@ public class BookLendingRequest extends Root{
 	@Transient
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	protected Date estimatedReturnDate;
-	
-	@Transient
-	@Value("${max.keep.days}")
-	private int incrementDays;
 	
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -100,8 +93,8 @@ public class BookLendingRequest extends Root{
 		return estimatedReturnDate;
 	}
 
-	public void setEstimatedReturnDate(Date approvaLocalDate) {
-		this.estimatedReturnDate = DateCalculationHelper.incrementDay(approvaLocalDate, incrementDays);
+	public void setEstimatedReturnDate(Date estimatedDate) {
+		this.estimatedReturnDate = estimatedDate;
 	}
 
 	public Date getReturnDate() {
@@ -111,7 +104,6 @@ public class BookLendingRequest extends Root{
 	public void setReturnDate(Date returnDate) {
 		this.returnDate = returnDate;
 	}
-	
-	
+
 
 }

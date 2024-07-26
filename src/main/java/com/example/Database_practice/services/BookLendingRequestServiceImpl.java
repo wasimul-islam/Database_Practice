@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.Database_practice.enums.BookStatus;
 import com.example.Database_practice.enums.RequestStatus;
+import com.example.Database_practice.helpers.DateCalculationHelper;
 import com.example.Database_practice.models.Book;
 import com.example.Database_practice.models.BookLendingRequest;
 import com.example.Database_practice.models.ResponseMessage;
@@ -22,6 +23,9 @@ public class BookLendingRequestServiceImpl implements BookLendingRequestService 
 	
 	@Value("${max.limit.books}")
 	private Long maxBookLimit;
+	
+	@Value("${max.keep.days}")
+	private int incrementDays;
 	
 	@Autowired
 	private BookLendingRequestRepository bookLendingRequestRepository;
@@ -40,7 +44,9 @@ public class BookLendingRequestServiceImpl implements BookLendingRequestService 
 		//{
 		//	
 		//}
-		request.setReqStatus(RequestStatus.PENDING);		
+		Date creationDate = new Date();
+		request.setReqStatus(RequestStatus.PENDING);
+		request.setCreationDate(creationDate);
 		request= bookLendingRequestRepository.save(request);
 		return ResponseEntity.ok(request);
 	}
@@ -118,7 +124,27 @@ public class BookLendingRequestServiceImpl implements BookLendingRequestService 
 	@Override
 	public ResponseEntity<?> getRequests() {
 		// TODO Auto-generated method stub
-		return ResponseEntity.ok(bookLendingRequestRepository.findAll());
+		List<BookLendingRequest> optionalList = bookLendingRequestRepository.findAll();
+		
+		
+				  for(BookLendingRequest request: optionalList )
+				  { 
+					   request.setEstimatedReturnDate(DateCalculationHelper.incrementDay(request.getApprovalDate(),incrementDays)); 
+					   
+				  }
+			
+				  return ResponseEntity.ok(optionalList);
+	}
+
+	@Override
+	public ResponseEntity<?> deleteRequest(Long id) {
+		
+			Optional<BookLendingRequest> optionalExistingBU = bookLendingRequestRepository.findById(id);
+			if(optionalExistingBU.isPresent()) {
+				bookLendingRequestRepository.deleteById(id);
+			}
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseMessage("Element deleted"));
+		
 	}
 
 	
